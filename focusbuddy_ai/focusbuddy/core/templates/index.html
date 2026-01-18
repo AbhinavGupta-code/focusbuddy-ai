@@ -1,0 +1,80 @@
+{% load markdown_extras %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FocusBuddy AI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        .main-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: none;
+        }
+        .ai-output h3 { color: #5a3e85; margin-top: 20px; }
+        .ai-output strong { color: #2d2d2d; }
+        .btn-primary {
+            background: #764ba2;
+            border: none;
+        }
+        .btn-primary:hover { background: #5a3e85; }
+    </style>
+</head>
+<body class="d-flex align-items-center py-5">
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            
+            <div class="text-center text-white mb-4">
+                <h1 class="fw-bold">🧠 FocusBuddy AI</h1>
+                <p class="opacity-75">Your compassionate study coach.</p>
+            </div>
+
+            <div class="card main-card p-4 mb-4">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">What subject?</label>
+                        <input type="text" name="subject" class="form-control" placeholder="e.g. Calculus, History..." required>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <label class="form-label fw-bold">Time (min)</label>
+                            <input type="number" name="time_available" class="form-control" value="30" required>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <label class="form-label fw-bold">Energy Level</label>
+                            <select name="energy_level" class="form-select">
+                                <option value="High">⚡ High Energy</option>
+                                <option value="Medium" selected>☕ Medium</option>
+                                <option value="Low">🔋 Low Battery</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary w-100 py-2 fw-bold" type="submit">
+                        Generate Plan ✨
+                    </button>
+                </form>
+            </div>
+
+            {% if response %}
+            <div class="card main-card p-4 ai-output">
+                <h4 class="border-bottom pb-2 mb-3">Your Personalized Plan</h4>
+                <div>{{ response | markdown | safe }}</div>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
